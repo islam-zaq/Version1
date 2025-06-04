@@ -8,7 +8,7 @@ from models.credit_card import CreditCard
 from utils.helpers import display_table
 from utils.menuEmployee import *
 import sqlite3
-
+from datetime import datetime
 class Menu:
     def __init__(self):
         self.employee = Employee()
@@ -17,6 +17,7 @@ class Menu:
         self.salary = Salary()
         self.car = Car()
         self.credit_card = CreditCard()
+        self.cash = Cash()
 
     def main_menu(self):
         while True:
@@ -41,7 +42,7 @@ class Menu:
             elif choice == "5":
                 self.credit_card_menu()
             elif choice == "6":
-                self.cash_menu()
+                self.cash_document_menu()
             elif choice == "0":
                 print("Exiting...")
                 break
@@ -52,7 +53,7 @@ class Menu:
         confirm = input(
             f"Are you sure you want to delete/fire {item_type} '{item_name}' (ID: {item_id})? (yes/y/1): ")
         return confirm.lower() in ["yes", "y", "1"]
-
+    
     def employee_menu(self):
         while True:
             print("\nEmployee Menu:")
@@ -349,6 +350,18 @@ class Menu:
             else:
                 print("Invalid choice, try again.")
 
+    def to_int(self, value):
+        try:
+            return int(value)
+        except:
+            return 0
+
+    def to_float(self, value):
+        try:
+            return float(value)
+        except:
+            return 0
+
     def credit_card_menu(self):
         while True:
             print("\nCredit card Menu:")
@@ -422,17 +435,152 @@ class Menu:
             else:
                 print("Invalid choice, try again.")
     
-    def cash_menu(self):
-        print("\Cash Menu:")
-        print("1. Add Cash")
-        print("2. View Cash")
-        print("3. Update Cash")
-        print("4. Delete Cash")
-        print("5. Export to csv file")
-        print("6. Import from csv file")
-        print("0. Back")
-        choice = input("Enter your choice: ")
+    def cash_menu(self, doc_id):
+        while True:
+            print("1. Add money")
+            print("2. Add sub money")
+            print("3. Update money")
+            print("4. Delete money")
+            print("5. Show deleted money")
+            print("6. Filter settings")
+            print("0. Back")
+            choice = input("Enter your choice: ")
 
-        if choice == "1":
-            amount = input("Enter amount: ")
-            
+            if choice == "1":
+                m100 = m50 = m20 = m10 = m5 = m1 = 0
+                tenne = 0
+                d100 = d50 = d20 = d10 = d5 = d2 = d1 = 0
+                rate = summa = 0
+                sumCom = ""
+                comment = ""
+                date    = datetime.now()
+
+                while True:
+                    print("\n--- CASH MENU ---")
+                    print("1. 100m:      ", m100, " = ", self.to_int(m100) * 100)
+                    print("2. 50m:       ", m50,  " = ", self.to_int(m50) * 50)
+                    print("3. 20m:       ", m20,  " = ", self.to_int(m20) * 20)
+                    print("4. 10m:       ", m10,  " = ", self.to_int(m10) * 10)
+                    print("5. 5m:        ", m5,   " = ", self.to_int(m5) * 5)
+                    print("6. 1m:        ", m1)
+                    print("7. Tenne:     ", tenne)
+
+                    print("8. 100$:      ", d100, " = ", self.to_int(d100) * 100 * self.to_float(rate))
+                    print("9. 50$:       ", d50,  " = ", self.to_int(d50) * 50   * self.to_float(rate))
+                    print("10. 20$:      ", d20,  " = ", self.to_int(d20) * 20   * self.to_float(rate))
+                    print("11. 10$:      ", d10,  " = ", self.to_int(d10) * 10   * self.to_float(rate))
+                    print("12. 5$:       ", d5,   " = ", self.to_int(d5) * 5     * self.to_float(rate))
+                    print("13. 2$:       ", d2,   " = ", self.to_int(d2) * 2     * self.to_float(rate))
+                    print("14. 1$:       ", d1)
+
+                    print("15. Rate:     ", rate)
+                    print("16. Summa:    ", summa)
+                    print("17. Sum comm: ", sumCom)
+                    print("18. Comment:  ", comment)
+                    print("19. Date:     ", date)
+                    print("0. Exit")                    
+                    
+                    choice = input("Enter your choice: ")
+                                    
+                    if choice == "1":
+                        m100 = self.to_int(input("100m: "))
+                    elif choice == "2":
+                        m50 = self.to_int(input("50m: "))
+                    elif choice == "3":
+                        m20 = self.to_int(input("20m: "))
+                    elif choice == "4":
+                        m10 = self.to_int(input("10m: "))
+                    elif choice == "5":
+                        m5 = self.to_int(input("5m: "))
+                    elif choice == "6":
+                        m1 = self.to_int(input("1m: "))
+                    elif choice == "7":
+                        tenne = self.to_int(input("Tenne: "))
+                    elif choice == "8":
+                        d100 = self.to_int(input("100$: "))
+                    elif choice == "9":
+                        d50 = self.to_int(input("50$: "))
+                    elif choice == "10":
+                        d20 = self.to_int(input("20$: "))
+                    elif choice == "11":
+                        d10 = self.to_int(input("10$: "))
+                    elif choice == "12":
+                        d5 = self.to_int(input("5$: "))
+                    elif choice == "13":
+                        d2 = self.to_int(input("2$: "))
+                    elif choice == "14":
+                        d1 = self.to_int(input("1$: "))
+                    elif choice == "15":
+                        rate = self.to_float(input("Rate: "))
+                    elif choice == "16":
+                        summa = self.to_float(input("Summa: "))
+                    elif choice == "17":
+                        sumCom = self.to_float(input("Sum comm: "))
+                    elif choice == "18":
+                        comment = input("Comment: ")
+                    elif choice == "19":
+                        date = input("Date: ")
+                    elif choice == "0":
+                        print("Exiting...")
+                        break
+                    else:
+                        print("Invalid choice, try again.")
+            elif choice == "0":
+                print("Exiting...")
+                break
+            else:
+                print("Invalid choice, try again.")
+
+    def cash_document_menu(self):
+        while True:
+            cash_documents = self.cash.read_cash_documents()
+            display_table(cash_documents, ["ID", "Doc date", "Comment", "Status"], "Cash documents")
+
+            print("Cash Documents Menu:")
+            print("1. Enter")
+            print("2. Create Cash Document")
+            print("3. Delete Cash Document")
+            print("4. Activate Cash Document")
+            print("0. Back")
+            choice = input("Enter your choice: ")
+            if choice == "1":
+                cash_documents = self.cash.read_cash_documents()
+                display_table(cash_documents, ["ID", "Doc date", "Comment", "Status"], "Cash documents")
+
+                doc_id = input("Enter document ID to use: ")                
+                doc_info = next((doc for doc in cash_documents if str(doc[0]) == doc_id), None)
+                if doc_info:
+                    self.cash_menu(doc_id)
+                else:
+                    print("Invalid id.")
+
+
+            elif choice == "2":
+                sene = input("Enter date (format:2025-12-31): ")
+                comment = input("Enter title: ")
+                self.cash.create_cash_document(sene, comment)
+            elif choice == "3":
+                cash_documents = self.cash.read_cash_documents()
+                display_table(cash_documents, ["ID", "Doc date", "Comment", "Status"], "Cash documents")
+                
+                doc_id = input("Enter document ID to delete: ")                
+                doc_info = next((doc for doc in cash_documents if str(doc[0]) == doc_id), None)
+                if doc_info and self.confirm_deletion_fire("Cash document", doc_info[1], doc_id):
+                    self.cash.delete_document(doc_id)
+                else:
+                    print("Deletion canceled.")
+            elif choice == "4":
+                cash_documents = self.cash.read_cash_documents(True)
+                display_table(cash_documents, ["ID", "Doc date", "Comment", "Status"], "Cash documents")
+
+                doc_id = input("Enter document ID to delete: ")                
+                doc_info = next((doc for doc in cash_documents if str(doc[0]) == doc_id), None)
+                if doc_info:
+                    self.cash.activate_document(doc_id)
+                else:
+                    print("Activation canceled.")
+            elif choice == "0":
+                print("Exiting...")
+                break
+            else:
+                print("Invalid choice, try again.")
