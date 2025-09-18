@@ -1,0 +1,74 @@
+rom models.employee import Employee
+from models.position import Position
+from utils.helpers import display_table
+
+class Menu:
+    def __init__(self):
+        self.employee = Employee()
+        self.position = Position()
+
+    def main_menu(self):
+        while True:
+            print("\nMain Menu:")
+            print("1. Manage Employees")
+            print("2. Manage Positions")
+            print("0. Exit")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.employee_menu()
+            elif choice == "2":
+                self.position_menu()
+            elif choice == "0":
+                print("Exiting...")
+                break
+            else:
+                print("Invalid choice, try again.")
+
+    def employee_menu(self):
+        while True:
+            print("\nEmployee Menu:")
+            print("1. Add Employee")
+            print("2. View Employees")
+            print("3. Update Employee")
+            print("4. Delete Employee")
+            print("0. Back")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                name = input("Enter employee name: ")
+                position_id = input("Enter position ID: ")
+                self.employee.create_employee(name, position_id)
+            elif choice == "2":
+                employees = self.employee.read_employees()
+                display_table(employees, ["ID", "Name", "Position"], "Employees")
+            elif choice == "3":
+                emp_id = input("Enter employee ID to update: ")
+                name = input("Enter new name: ")
+                position_id = input("Enter new position ID: ")
+                self.employee.update_employee(emp_id, name, position_id)
+            elif choice == "4":
+                emp_id = input("Enter employee ID to delete: ")
+                self.employee.delete_employee(emp_id)
+            elif choice == "0":
+                break
+            else:
+                print("Invalid choice, try again.")
+
+    def position_menu(self):
+        while True:
+            print("\nPosition Menu:")
+            print("1. Add Position")
+            print("2. View Positions")
+            print("3. Update Position")
+            print("4. Delete Position")
+            print("0. Back")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                title = input("Enter position title: ")
+                self.position.create_position(title)
+            elif choice == "2":
+                positions = self.position.read_positions()
+                display_table(positions, ["ID", "Title"], "Positions")
+            elif choice == "3":
