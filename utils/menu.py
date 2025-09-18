@@ -5,6 +5,7 @@ from models.salary import Salary
 from models.car import Car
 from models.credit_card import CreditCard
 from utils.helpers import display_table
+from utils.menuEmployee import *
 import sqlite3
 
 class Menu:
@@ -193,54 +194,7 @@ class Menu:
                 break
             else:
                 print("Invalid choice, try again.")
-    # def document_menu(self):
-    #     while True:
-    #         print("\nDocument Menu:")
-    #         print("1. Add Document")
-    #         print("2. View Documents")
-    #         print("3. Update Document")
-    #         print("4. Delete Document")
-    #         print("0. Back")
-    #         choice = input("Enter your choice: ")
-    #
-    #         if choice == "1":
-    #             title = input("Enter document title: ")
-    #             description = input("Enter description: ")
-    #             date = input("Enter date (YYYY-MM-DD): ")
-    #             worked_date = input("Enter worked days: ")
-    #             self.document.create_document(title, description, date, worked_date)
-    #         elif choice == "2":
-    #             documents = self.document.read_documents()
-    #             display_table(documents, ["ID", "Title", "Description", "Date", "Worked Days"], "Documents")
-    #         elif choice == "3":
-    #             documents = self.document.read_documents()
-    #             display_table(documents, ["ID", "Title", "Description", "Date", "Worked Days"], "Documents")
-    #             doc_id = input("Enter document ID to update: ")
-    #             existing_document = next((doc for doc in documents if str(doc[0]) == doc_id), None)
-    #             if not existing_document:
-    #                 print("Invalid document ID.")
-    #                 continue
-    #
-    #             title = input("Enter new title (leave blank to keep current): ") or existing_document[1]
-    #             description = input("Enter new description (leave blank to keep current): ") or existing_document[2]
-    #             date = input("Enter new date (YYYY-MM-DD, leave blank to keep current): ") or existing_document[3]
-    #             worked_date = input("Enter new worked days (leave blank to keep current): ") or existing_document[4]
-    #
-    #             self.document.update_document(doc_id, title, description, date, worked_date)
-    #         elif choice == "4":
-    #             documents = self.document.read_documents()
-    #             display_table(documents, ["ID", "Title", "Description", "Date", "Worked Days"], "Documents")
-    #             doc_id = input("Enter document ID to delete: ")
-    #             doc_info = next((doc for doc in documents if str(doc[0]) == doc_id), None)
-    #             if doc_info and self.confirm_deletion_fire("document", doc_info[1], doc_id):
-    #                 self.document.delete_document(doc_id)
-    #             else:
-    #                 print("Deletion canceled.")
-    #         elif choice == "0":
-    #             break
-    #         else:
-    #             print("Invalid choice, try again.")
-    #
+
     def salary_menu(self):
         while True:
             print("\nSalary Menu:")
