@@ -39,7 +39,7 @@ class Menu:
                 self.salary_menu()
             elif choice == "4":
                 self.car_menu()
-            elif choice == "7":
+            elif choice == "5":
                 self.credit_card_menu()
             elif choice == "0":
                 print("Exiting...")
@@ -53,7 +53,6 @@ class Menu:
         return confirm.lower() in ["yes", "y", "1"]
 
     def employee_menu(self):
-        
         while True:
             print("\nEmployee Menu:")
             print("1. Add Employee")
