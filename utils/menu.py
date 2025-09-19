@@ -53,6 +53,7 @@ class Menu:
         return confirm.lower() in ["yes", "y", "1"]
 
     def employee_menu(self):
+        
         while True:
             print("\nEmployee Menu:")
             print("1. Add Employee")
