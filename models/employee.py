@@ -1,5 +1,6 @@
 from database import Database
 import sqlite3
+import csv
 
 class Employee:
     def __init__(self):
@@ -46,3 +47,64 @@ class Employee:
         """Restore a fired employee to active status."""
         self.db.execute("UPDATE employees SET is_active = 1 WHERE id = ?", (emp_id,))
         print(f"✅ Employee ID {emp_id} has been reactivated.")
+
+    def export_employees_to_csv(self, filename):
+        """
+        Export all employees to a CSV file.
+        """
+        cursor = self.db.conn.cursor()
+        cursor.execute("SELECT * FROM employees")
+
+        rows = cursor.fetchall()
+        headers = [desc[0] for desc in cursor.description]
+
+        with open(filename, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(headers)   # column names
+            writer.writerows(rows)
+
+        print(f"✅ Exported {len(rows)} employees to {filename}")
+    
+    def import_employees_from_csv(self, filename):
+        """
+        Import employees from CSV.
+        - If ID is blank → insert new employee (auto id).
+        - If ID exists → update that employee.
+        - If ID does not exist → insert with that ID.
+        """
+        cursor = self.db.conn.cursor()
+        inserted, updated = 0, 0
+
+        with open(filename, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                emp_id = row.get("id", "").strip()
+                name = row.get("name", "").strip()
+                position_id = row.get("position_id", "").strip() or None
+                is_active = row.get("is_active", "1").strip()  # default active=1
+
+                if emp_id == "":
+                    # New employee → let DB generate ID
+                    cursor.execute("""
+                        INSERT INTO employees (name, position_id, is_active)
+                        VALUES (?, ?, ?)
+                    """, (name, position_id, is_active))
+                    inserted += 1
+                else:
+                    # Try update existing
+                    cursor.execute("""
+                        UPDATE employees
+                        SET name=?, position_id=?, is_active=?
+                        WHERE id=?
+                    """, (name, position_id, is_active, emp_id))
+
+                    if cursor.rowcount == 0:
+                        # If no row updated → insert with given id
+                        cursor.execute("""
+                            INSERT INTO employees (id, name, position_id, is_active)
+                            VALUES (?, ?, ?, ?)
+                        """, (emp_id, name, position_id, is_active))
+                    updated += 1
+
+        self.db.conn.commit()
+        print(f"✅ Imported: {inserted} new, {updated} updated employees from {filename}")    

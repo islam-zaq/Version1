@@ -22,7 +22,6 @@ class Menu:
             print("\nMain Menu:")
             print("1. Manage Employees")
             print("2. Manage Positions")
-            # print("3. Manage Documents")
             print("3. Manage Salaries")
             print("4. Manage Cars")
             print("5. Manage Credit Cards")
@@ -33,8 +32,6 @@ class Menu:
                 self.employee_menu()
             elif choice == "2":
                 self.position_menu()
-            # elif choice == "3":
-            #     self.document_menu()
             elif choice == "3":
                 self.salary_menu()
             elif choice == "4":
@@ -62,22 +59,22 @@ class Menu:
             print("5. View fired Employees")
             print("6. Fire Employee")
             print("7. Unfire Employee")
+            print("8. Export to csv file")
+            print("9. Import from csv file")
             print("0. Back")
             choice = input("Enter your choice: ")
 
-            if choice == "1":
+            if   choice == "1":
                 name = input("Enter employee name: ")
                 
                 positions = self.position.read_positions()
                 display_table(positions, ["ID", "Title"], "Positions")
                 position_id = input("Enter position ID: ")
                 
-                self.employee.create_employee(name, position_id)
-                
+                self.employee.create_employee(name, position_id)                
             elif choice == "2":
                 employees = self.employee.read_employees()
-                display_table(employees, ["ID", "Name", "Position"], "Employees")
-                
+                display_table(employees, ["ID", "Name", "Position"], "Employees")                
             elif choice == "3":
                 employees = self.employee.read_employees()
                 display_table(employees, ["ID", "Name", "Position"], "Employees")
@@ -96,8 +93,7 @@ class Menu:
                     continue
                 position_id = input("Enter new position ID (leave blank to keep current): ") or existing_position[0]
 
-                self.employee.update_employee(emp_id, name, position_id)
-                
+                self.employee.update_employee(emp_id, name, position_id)                
             elif choice == "4":
                 employees = self.employee.read_employees()
                 display_table(employees, ["ID", "Name", "Position"], "Employees")
@@ -108,7 +104,7 @@ class Menu:
                     self.employee.delete_employee(emp_id)
                 else:
                     print("Deletion canceled.")
-            elif choice == "5":  # View fired employees
+            elif choice == "5": # View fired employees
                 employees = self.employee.read_fired_employees()
                 display_table(employees, ["ID", "Name", "Position"], "Fired Employees")
             elif choice == "6": #Fire Employee
@@ -120,11 +116,17 @@ class Menu:
                     self.employee.fire_employee(emp_id)
                 else:
                     print("Deletion canceled.")
-            elif choice == "7":  # Unfire an employee
+            elif choice == "7": # Unfire an employee
                 employees = self.employee.read_fired_employees()
                 display_table(employees, ["ID", "Name", "Position"], "Fired Employees")
                 emp_id = input("Enter employee ID to restore: ")
                 self.employee.unfire_employee(emp_id)
+            elif choice == "8": # Export to csv
+                filename = input("Enter filename: ").strip()
+                self.employee.export_employees_to_csv(filename)
+            elif choice == "9": # Import from csv
+                filename = input("Enter filename: ").strip()
+                self.employee.import_employees_from_csv(filename)
             elif choice == "0":
                 break
             else:
@@ -140,6 +142,8 @@ class Menu:
             print("5. View Inactive Position")
             print("6. Deactivate Position")
             print("7. Reactivate Position")
+            print("8. Export to csv file")
+            print("9. Import from csv file")
             print("0. Back")
             choice = input("Enter your choice: ")
 
@@ -190,6 +194,12 @@ class Menu:
                 display_table(positions, ["ID", "Title"], "Inactive Positions")
                 pos_id = input("Enter position ID to reactivate: ")
                 self.position.reactivate_position(pos_id)
+            elif choice == "8": # Export to csv
+                filename = input("Enter filename: ").strip()
+                self.position.export_positions_to_csv(filename)
+            elif choice == "9": # Import from csv
+                filename = input("Enter filename: ").strip()
+                self.position.import_positions_from_csv(filename)
             elif choice == "0":
                 break
             else:
@@ -202,6 +212,8 @@ class Menu:
             print("2. View Salaries")
             print("3. Update Salary")
             print("4. Delete Salary")
+            print("5. Export to csv file")
+            print("6. Import from csv file")
             print("0. Back")
             choice = input("Enter your choice: ")
 
@@ -243,6 +255,12 @@ class Menu:
                     self.salary.delete_salary(sal_id)
                 else:
                     print("Deletion canceled.")
+            elif choice == "5": # Export to csv
+                filename = input("Enter filename: ").strip()
+                self.salary.export_salaries_to_csv(filename)
+            elif choice == "6": # Import from csv
+                filename = input("Enter filename: ").strip()
+                self.salary.import_salaries_from_csv(filename)            
             elif choice == "0":
                 break
             else:
