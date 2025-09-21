@@ -273,6 +273,8 @@ class Menu:
             print("2. View Cars")
             print("3. Update Car")
             print("4. Delete Car")
+            print("5. Export to csv file")
+            print("6. Import from csv file")    
             print("0. Back")
             choice = input("Enter your choice: ")
 
@@ -293,7 +295,6 @@ class Menu:
             elif choice == "2":
                 cars = self.car.read_cars()
                 display_table(cars, ["ID", "Model", "Car ID", "Owner 1", "Owner 2"], "Cars")
-
             elif choice == "3":
                 cars = self.car.read_cars()
                 display_table(cars, ["ID", "Model", "Car ID", "Owner 1", "Owner 2"], "Cars")
@@ -324,7 +325,6 @@ class Menu:
                 employee_id2 = input("Enter new secondary owner ID (leave blank to keep current): ") or existing_employee2[0]
                 print(employee_id2)
                 self.car.update_car(car_id, model, car_idnum, employee_id1, employee_id2)
-
             elif choice == "4":
                 cars = self.car.read_cars()
                 display_table(cars, ["ID", "Model", "Car ID", "Owner 1", "Owner 2"], "Cars")
@@ -334,6 +334,12 @@ class Menu:
                     self.car.delete_car(car_id)
                 else:
                     print("Deletion canceled.")
+            elif choice == "5":
+                filename = input("Enter filename: ").strip()
+                self.car.export_cars_to_csv(filename)
+            elif choice == "6":
+                filename = input("Enter filename: ").strip()
+                self.car.import_cars_from_csv(filename)
             elif choice == "0":
                 break
             else:
@@ -346,6 +352,8 @@ class Menu:
             print("2. View Credit cards")
             print("3. Update Credit card")
             print("4. Delete Credit card")
+            print("5. Export to csv file")
+            print("6. Import from csv file")
             print("0. Back")
             choice = input("Enter your choice: ")
 
@@ -385,7 +393,6 @@ class Menu:
                 employee_id = input("Enter employee ID (leave blank to keep current): ") or existing_card[1]
 
                 self.credit_card.update_credit_card(card_id, amount, employee_id)
-
             elif choice == '4':
                 credit_card = self.credit_card.read_credit_cards()
                 display_table(credit_card,
@@ -400,7 +407,12 @@ class Menu:
                     self.credit_card.delete_credit_card(card_id)
                 else:
                     print("Deletion canceled.")
-
+            elif choice == "5":
+                filename = input("Enter filename: ").strip()
+                self.credit_card.export_credit_cards_to_csv(filename)
+            elif choice == "6":
+                filename = input("Enter filename: ").strip()
+                self.credit_card.import_credit_cards_from_csv(filename)
             elif choice == "0":
                 break
             else:

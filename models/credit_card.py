@@ -1,5 +1,6 @@
 from database import Database
 import sqlite3
+import csv
 
 class CreditCard:
     def __init__(self):
@@ -41,3 +42,67 @@ class CreditCard:
             print(f"Jemi: {amount[0][0]}, Isgar: {count[0][0]}")
         else:
             print("No salary records found.")
+    
+    def export_credit_cards_to_csv(self, filename):
+        """
+        Export all credit cards to a CSV file.
+        Columns: id, amount, employee_id, is_active
+        """
+        cursor = self.db.conn.cursor()
+        cursor.execute("SELECT id, amount, employee_id, is_active FROM credit_card")
+        rows = cursor.fetchall()
+        headers = [desc[0] for desc in cursor.description]
+
+        with open(filename, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+        print(f"✅ Exported {len(rows)} credit cards to {filename}")
+
+    def import_credit_cards_from_csv(self, filename):
+        """
+        Import credit cards from CSV.
+        - If ID is blank → insert new card (auto id).
+        - If ID exists → update that card.
+        - If ID does not exist → insert with that ID.
+        """
+        cursor = self.db.conn.cursor()
+        inserted, updated = 0, 0
+
+        with open(filename, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+
+            expected_headers = ["id", "amount", "employee_id", "is_active"]
+            if reader.fieldnames != expected_headers:
+                print(f"❌ Error: CSV headers must be {expected_headers}, got {reader.fieldnames}")
+                return
+
+            for row in reader:
+                card_id = row["id"].strip()
+                amount = row["amount"].strip()
+                employee_id = row["employee_id"].strip()
+                is_active = row["is_active"].strip() or "1"
+
+                if card_id == "":
+                    cursor.execute("""
+                        INSERT INTO credit_card (amount, employee_id, is_active)
+                        VALUES (?, ?, ?)
+                    """, (amount, employee_id, is_active))
+                    inserted += 1
+                else:
+                    cursor.execute("""
+                        UPDATE credit_card
+                        SET amount=?, employee_id=?, is_active=?
+                        WHERE id=?
+                    """, (amount, employee_id, is_active, card_id))
+
+                    if cursor.rowcount == 0:
+                        cursor.execute("""
+                            INSERT INTO credit_card (id, amount, employee_id, is_active)
+                            VALUES (?, ?, ?, ?)
+                        """, (card_id, amount, employee_id, is_active))
+                    updated += 1
+
+        self.db.conn.commit()
+        print(f"✅ Imported: {inserted} new, {updated} updated credit cards from {filename}")
