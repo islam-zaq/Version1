@@ -3,6 +3,7 @@ from models.position import Position
 from models.document import Document
 from models.salary import Salary
 from models.car import Car
+from models.cash import Cash
 from models.credit_card import CreditCard
 from utils.helpers import display_table
 from utils.menuEmployee import *
@@ -25,6 +26,7 @@ class Menu:
             print("3. Manage Salaries")
             print("4. Manage Cars")
             print("5. Manage Credit Cards")
+            print("6. Manage Cash")
             print("0. Exit")
             choice = input("Enter your choice: ")
 
@@ -38,6 +40,8 @@ class Menu:
                 self.car_menu()
             elif choice == "5":
                 self.credit_card_menu()
+            elif choice == "6":
+                self.cash_menu()
             elif choice == "0":
                 print("Exiting...")
                 break
@@ -417,3 +421,18 @@ class Menu:
                 break
             else:
                 print("Invalid choice, try again.")
+    
+    def cash_menu(self):
+        print("\Cash Menu:")
+        print("1. Add Cash")
+        print("2. View Cash")
+        print("3. Update Cash")
+        print("4. Delete Cash")
+        print("5. Export to csv file")
+        print("6. Import from csv file")
+        print("0. Back")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            amount = input("Enter amount: ")
+            
