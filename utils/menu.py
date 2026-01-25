@@ -465,13 +465,13 @@ class Menu:
                     print("6. 1m:        ", m1)
                     print("7. Tenne:     ", tenne)
 
-                    print("8. 100$:      ", d100, " = ", self.to_int(d100) * 100 * self.to_float(rate))
-                    print("9. 50$:       ", d50,  " = ", self.to_int(d50) * 50   * self.to_float(rate))
-                    print("10. 20$:      ", d20,  " = ", self.to_int(d20) * 20   * self.to_float(rate))
-                    print("11. 10$:      ", d10,  " = ", self.to_int(d10) * 10   * self.to_float(rate))
-                    print("12. 5$:       ", d5,   " = ", self.to_int(d5) * 5     * self.to_float(rate))
-                    print("13. 2$:       ", d2,   " = ", self.to_int(d2) * 2     * self.to_float(rate))
-                    print("14. 1$:       ", d1)
+                    print("8. 100$:      ", d100, " = ", self.to_int(d100) * 100, "$ = ",round(self.to_int(d100) * 100 * self.to_float(rate), 2))
+                    print("9. 50$:       ", d50,  " = ", self.to_int(d50) * 50, "$ = ",round(self.to_int(d50) * 50   * self.to_float(rate), 2))
+                    print("10. 20$:      ", d20,  " = ", self.to_int(d20) * 20, "$ = ",round(self.to_int(d20) * 20   * self.to_float(rate), 2))
+                    print("11. 10$:      ", d10,  " = ", self.to_int(d10) * 10, "$ = ",round(self.to_int(d10) * 10   * self.to_float(rate), 2))
+                    print("12. 5$:       ", d5,   " = ", self.to_int(d5) * 5, "$ = ",round(self.to_int(d5) * 5     * self.to_float(rate), 2))
+                    print("13. 2$:       ", d2,   " = ", self.to_int(d2) * 2, "$ = ",round(self.to_int(d2) * 2     * self.to_float(rate), 2))
+                    print("14. 1$:       ", d1,   " = ", self.to_int(d1) * 1, "$ = ",round(self.to_int(d1) * 1     * self.to_float(rate), 2))
 
                     print("15. Rate:     ", rate)
                     print("16. Summa:    ", summa)
@@ -515,7 +515,7 @@ class Menu:
                     elif choice == "16":
                         summa = self.to_float(input("Summa: "))
                     elif choice == "17":
-                        sumCom = self.to_float(input("Sum comm: "))
+                        sumCom = input("Sum comm: ")
                     elif choice == "18":
                         comment = input("Comment: ")
                     elif choice == "19":
